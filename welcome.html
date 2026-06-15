@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Shoea</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .slider {
+      scroll-snap-type: x mandatory;
+    }
+
+    .slide {
+      scroll-snap-align: start;
+    }
+
+    #splash {
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+
+<body class="overflow-hidden">
+
+  <!-- SPLASH SCREEN -->
+
+  <div id="splash" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div class="flex flex-col items-center">
+      <div class="flex items-center gap-4">
+        <div class="w-[231] h-20 text-white flex items-center justify-center text-4xl font-bold">
+          <img src="img/Group 2.svg">
+        </div>
+
+      </div>
+
+      <div class="mt-8 w-12 h-12 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+    </div>
+  </div>
+
+  <!-- APP -->
+
+  <div id="app" class="hidden">
+    <div id="slider" class="slider flex overflow-hidden h-screen">
+
+      <!-- PAGE 1 -->
+
+      <section class="slide min-w-full h-screen relative">
+        <img src="img/firstpage.jpg" class="absolute inset-0 w-full h-full object-cover" />
+
+        <div class="absolute inset-0 bg-black/50"></div>
+
+        <div class="absolute bottom-16 left-8 text-white z-10">
+          <h3 class="text-2xl mb-2">
+            Welcome to 👋
+          </h3>
+
+          <h1 class="text-6xl font-bold">
+            Shoea
+          </h1>
+
+          <p class="mt-3 text-gray-200 max-w-sm">
+            The best sneakers app for your fashion needs.
+          </p>
+
+          <p class="mt-8 text-sm text-gray-200">
+            Scroll down or swipe left to continue
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE 2 -->
+
+      <section class="slide min-w-full h-screen bg-white flex flex-col">
+        <img src="img/secondpage.png" class="h-[65%] object-cover" />
+
+        <div class="flex-1 flex flex-col items-center justify-center px-8">
+          <h2 class="text-center text-3xl font-bold">
+            We provide high quality products just for you
+          </h2>
+
+          <div class="flex gap-3 mt-8">
+            <button onclick="goToSlide(1)" id="dot1" class="w-10 h-1 rounded bg-black"></button>
+            <button onclick="goToSlide(2)" id="dot2" class="w-10 h-1 rounded bg-gray-300"></button>
+            <button onclick="goToSlide(3)" id="dot3" class="w-10 h-1 rounded bg-gray-300"></button>
+          </div>
+
+          <button onclick="goToSlide(2)" class="mt-10 w-full max-w-sm bg-slate-900 text-white py-4 rounded-full">
+            Next
+          </button>
+        </div>
+      </section>
+
+      <!-- PAGE 3 -->
+
+      <section class="slide min-w-full h-screen bg-white flex flex-col">
+        <img src="img/thirdpage.png" class="h-[65%] object-cover" />
+
+        <div class="flex-1 flex flex-col items-center justify-center px-8">
+          <h2 class="text-center text-3xl font-bold">
+            Your satisfaction is our number one priority
+          </h2>
+
+          <div class="flex gap-3 mt-8">
+            <button onclick="goToSlide(1)" class="w-10 h-1 rounded bg-gray-300"></button>
+            <button onclick="goToSlide(2)" class="w-10 h-1 rounded bg-black"></button>
+            <button onclick="goToSlide(3)" class="w-10 h-1 rounded bg-gray-300"></button>
+          </div>
+
+          <button onclick="goToSlide(3)" class="mt-10 w-full max-w-sm bg-slate-900 text-white py-4 rounded-full">
+            Next
+          </button>
+        </div>
+      </section>
+
+      <!-- PAGE 4 -->
+
+      <section class="slide min-w-full h-screen bg-white flex flex-col">
+        <img src="img/fourthpage.png" class="h-[65%] object-cover" />
+
+        <div class="flex-1 flex flex-col items-center justify-center px-8">
+          <h2 class="text-center text-3xl font-bold">
+            Let's fulfill your fashion needs now!
+          </h2>
+
+          <div class="flex gap-3 mt-8">
+            <button onclick="goToSlide(1)" class="w-10 h-1 rounded bg-gray-300"></button>
+            <button onclick="goToSlide(2)" class="w-10 h-1 rounded bg-gray-300"></button>
+            <button onclick="goToSlide(3)" class="w-10 h-1 rounded bg-black"></button>
+          </div>
+
+          <button onclick="showLogin()" class="mt-10 w-full max-w-sm bg-slate-900 text-white py-4 rounded-full">
+            Get Started
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+  <!-- LOGIN PAGE -->
+
+  <div id="loginPage" class="hidden min-h-screen bg-white flex items-center justify-center">
+
+    <div class="w-full max-w-md px-6">
+
+      <!-- LOGO -->
+
+      <div class="flex justify-center mb-8">
+        <img src="img/logo.svg" alt="Shoea Logo" class="w-24 h-24 object-contain">
+      </div>
+
+      <h1 class="text-4xl font-bold text-center mb-10">
+        Login to Your Account
+      </h1>
+
+      <form class="space-y-4">
+        <div class="relative">
+          <input id="email" type="email" placeholder="Email"
+            class="w-full h-14 bg-gray-100 rounded-xl px-4 outline-none">
+          <svg class="absolute right-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail">
+            <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+          </svg>
+        </div>
+
+        <div class="relative">
+
+          <input id="password" type="password" placeholder="Password"
+            class="w-full h-14 bg-gray-100 rounded-xl px-4 outline-none">
+
+          <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2">
+
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+              </path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+
+          </button>
+
+        </div>
+
+        <label class="flex items-center justify-center gap-2">
+
+          <input id="remember" type="checkbox">
+
+          <span>
+            Remember me
+          </span>
+
+        </label>
+
+       <button type="submit" id="loginBtn" disabled class="w-full h-14 rounded-full bg-gray-400 text-white font-semibold">
+
+          Sign In
+
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
