@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+
+        .size-btn.active {
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        .color-btn { position: relative; }
+        .color-btn.active::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        }
+
+      
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #toast.show {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* Wishlist active */
+        #wishlist-btn.active i {
+            color: #ef4444;
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    
+    <div id="toast"
+         class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-2xl shadow-lg opacity-0"
+         style="transform: translateY(-20px);">
+        ✓ Added to cart!
+    </div>
+
+   
+    <div class="relative bg-gray-100 w-full" style="height: 320px;">
+
+        
+        <button onclick="history.back()"
+                class="absolute top-6 left-5 z-10 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm">
+            <i class="fa-solid fa-arrow-left text-gray-800"></i>
+        </button>
+
+        
+        <button id="wishlist-btn"
+                onclick="toggleWishlist()"
+                class="absolute top-6 right-5 z-10 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm">
+            <i class="fa-regular fa-heart text-gray-800 text-lg"></i>
+        </button>
+
+       
+        <div class="w-full h-full flex items-center justify-center p-8">
+            <img id="product-image" src="" alt="Product"
+                 class="w-full h-full object-contain drop-shadow-xl">
+        </div>
+
+      
+        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+            <span class="w-6 h-2 bg-gray-800 rounded-full"></span>
+            <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+            <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+            <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+        </div>
+    </div>
+
+   
+    <div class="px-6 pt-6 pb-36 bg-white">
+
+   
+        <h1 id="product-name"
+            class="text-2xl font-extrabold text-gray-900 leading-tight mb-2">
+            Product Name
+        </h1>
+
+       
+        <div class="flex items-center gap-3 mb-5">
+            <span id="product-sold"
+                  class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full font-medium">
+                — sold
+            </span>
+            <div class="flex items-center gap-1">
+                <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                <span id="product-rating" class="text-xs font-semibold text-gray-700">—</span>
+                <span id="product-reviews" class="text-xs text-gray-400">(— reviews)</span>
+            </div>
+        </div>
+
+      
+        <hr class="border-gray-100 mb-5">
+
+     
+        <div class="mb-6">
+            <h2 class="font-bold text-base text-gray-900 mb-2">Description</h2>
+            <p id="product-description" class="text-sm text-gray-500 leading-relaxed"></p>
+        </div>
+
+        
+        <div class="flex gap-8 mb-6">
+
+           
+            <div class="flex-1">
+                <h2 class="font-bold text-base text-gray-900 mb-3">Size</h2>
+                <div class="flex gap-2 flex-wrap" id="size-buttons">
+                   
+                </div>
+            </div>
+
+            
+            <div class="flex-1">
+                <h2 class="font-bold text-base text-gray-900 mb-3">Color</h2>
+                <div class="flex gap-2 flex-wrap" id="color-buttons">
+                    
+                </div>
+            </div>
+
+        </div>
+
+        
+        <div class="flex items-center gap-4 mb-6">
+            <h2 class="font-bold text-base text-gray-900">Quantity</h2>
+            <div class="flex items-center gap-4 bg-gray-100 rounded-full px-5 py-2 ml-2">
+                <button onclick="changeQty(-1)"
+                        class="text-gray-700 font-bold text-lg w-5 text-center select-none">−</button>
+                <span id="qty-display"
+                      class="font-bold text-base w-5 text-center">1</span>
+                <button onclick="changeQty(1)"
+                        class="text-gray-700 font-bold text-lg w-5 text-center select-none">+</button>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4 flex items-center justify-between z-50">
+        <div>
+            <p class="text-xs text-gray-400">Total price</p>
+            <p id="total-price" class="text-2xl font-extrabold text-gray-900">$0.00</p>
+        </div>
+        <button id="add-to-cart-btn"
+                onclick="addToCart()"
+                class="flex items-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-sm active:scale-95 transition-transform">
+            <i class="fa-solid fa-bag-shopping"></i>
+            Add to Cart
+        </button>
+    </div>
+
+   
+    <script src="data.js"></script>
+
+    <script>
+       
+        const urlParams  = new URLSearchParams(window.location.search);
+        const productId  = parseInt(urlParams.get('id'));
+        const product    = PRODUCTS.find(p => p.id === productId);
+
+        const SIZES   = [39, 40, 41, 42, 43, 44];
+        const COLORS  = ['#e5e7eb', '#5b8fa8', '#9b59b6', '#a0785a', '#2ecc71'];
+
+        let selectedSize  = 42;
+        let selectedColor = COLORS[0];
+        let quantity      = 1;
+        let descExpanded  = false;
+        let wishlist      = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+        function init() {
+            if (!product) {
+                document.getElementById('product-name').innerText = 'Product not found';
+                return;
+            }
+
+            
+            document.title = product.name;
+            document.getElementById('product-image').src   = product.image;
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('product-sold').innerText = `${product.sold.toLocaleString()} sold`;
+            document.getElementById('product-rating').innerText = product.rating;
+            document.getElementById('product-reviews').innerText = `(${product.reviews.toLocaleString()} reviews)`;
+
+           
+            renderDescription();
+
+        
+            const sizeContainer = document.getElementById('size-buttons');
+            SIZES.forEach(size => {
+                const btn = document.createElement('button');
+                btn.className = `size-btn w-11 h-11 rounded-full border-2 border-gray-200 text-sm font-bold text-gray-700 transition-all ${size === selectedSize ? 'active' : ''}`;
+                btn.textContent = size;
+                btn.onclick = () => selectSize(size, btn);
+                sizeContainer.appendChild(btn);
+            });
+
+            
+            const colorContainer = document.getElementById('color-buttons');
+            COLORS.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = `color-btn w-11 h-11 rounded-full flex items-center justify-center transition-all ${color === selectedColor ? 'active' : ''}`;
+                btn.style.backgroundColor = color;
+                btn.onclick = () => selectColor(color, btn);
+                colorContainer.appendChild(btn);
+            });
+
+           
+            updateWishlistBtn();
+
+            
+            updateTotal();
+        }
+
+        
+        function renderDescription() {
+            const el   = document.getElementById('product-description');
+            const full = product.description;
+            const SHORT = 90;
+
+            if (full.length <= SHORT || descExpanded) {
+                el.innerHTML = full;
+            } else {
+                el.innerHTML = full.substring(0, SHORT) +
+                    `... <span class="font-bold text-gray-900 cursor-pointer underline underline-offset-2"
+                               onclick="expandDesc()">view more</span>`;
+            }
+        }
+
+        function expandDesc() {
+            descExpanded = true;
+            renderDescription();
+        }
+
+        function selectSize(size, btn) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function selectColor(color, btn) {
+            selectedColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+    
+        function changeQty(delta) {
+            quantity = Math.max(1, quantity + delta);
+            document.getElementById('qty-display').innerText = quantity;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = (product.price * quantity).toFixed(2);
+            document.getElementById('total-price').innerText = `$${total}`;
+        }
+
+        function addToCart() {
+            const success = Cart.addItem(product.id, selectedSize, selectedColor, quantity);
+            if (success) showToast('✓ Added to cart!');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+    
+        function toggleWishlist() {
+            const idx = wishlist.indexOf(product.id);
+            if (idx > -1) {
+                wishlist.splice(idx, 1);
+            } else {
+                wishlist.push(product.id);
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistBtn();
+        }
+
+        function updateWishlistBtn() {
+            const btn = document.getElementById('wishlist-btn');
+            const icon = btn.querySelector('i');
+            if (wishlist.includes(product.id)) {
+                icon.className = 'fa-solid fa-heart text-red-500 text-lg';
+            } else {
+                icon.className = 'fa-regular fa-heart text-gray-800 text-lg';
+            }
+        }
+
+    
+        init();
+    </script>
+
+</body>
+</html>
