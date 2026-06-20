@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .item-card { transition: opacity 0.3s ease, transform 0.3s ease; }
+        .item-card.removing { opacity: 0; transform: scale(0.9); }
+    </style>
+</head>
+<body class="bg-white pb-10">
+
+    <header class="p-6 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full">
+                <i class="fa-solid fa-arrow-left text-gray-800"></i>
+            </a>
+            <h1 class="text-xl font-extrabold text-gray-900">Wishlist</h1>
+        </div>
+        <span id="item-count" class="text-sm text-gray-400 font-medium"></span>
+    </header>
+
+   
+    <main class="px-6">
+        <div id="wishlist-grid" class="grid grid-cols-2 gap-x-5 gap-y-8">
+         
+        </div>
+    </main>
+
+   
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-28 px-6 text-center">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-5">
+            <i class="fa-regular fa-heart text-4xl text-gray-300"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">No favorites yet</h2>
+        <p class="text-sm text-gray-400 mb-6">Tap the heart on any product to save it here.</p>
+        <a href="index.html"
+           class="bg-gray-900 text-white px-8 py-3 rounded-full font-bold text-sm">
+            Browse Products
+        </a>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        function renderWishlist() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const grid     = document.getElementById('wishlist-grid');
+            const emptyEl  = document.getElementById('empty-state');
+            const countEl  = document.getElementById('item-count');
+
+            grid.innerHTML = '';
+
+            const items = PRODUCTS.filter(p => wishlist.includes(p.id));
+
+            if (items.length === 0) {
+                grid.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+                emptyEl.classList.add('flex');
+                countEl.innerText = '';
+                return;
+            }
+
+            grid.classList.remove('hidden');
+            emptyEl.classList.add('hidden');
+            emptyEl.classList.remove('flex');
+            countEl.innerText = `${items.length} item${items.length > 1 ? 's' : ''}`;
+
+            items.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'item-card flex flex-col relative';
+                card.id = `wish-${p.id}`;
+                card.innerHTML = `
+                    <!-- Remove Button -->
+                    <button onclick="removeFromWishlist(${p.id})"
+                            class="absolute top-3 right-3 z-10 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center">
+                        <i class="fa-solid fa-heart text-red-500 text-sm"></i>
+                    </button>
+
+                    <!-- Product Link -->
+                    <a href="product.html?id=${p.id}" class="flex flex-col">
+                        <div class="bg-[#F3F3F3] rounded-[32px] p-4 aspect-square flex items-center justify-center mb-3">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain">
+                        </div>
+                        <h3 class="font-bold text-[15px] text-gray-900 truncate">${p.name}</h3>
+                        <div class="flex items-center justify-between mt-1">
+                            <p class="font-bold text-gray-900">$${p.price.toFixed(2)}</p>
+                            <span class="text-xs text-gray-400 capitalize">${p.brand}</span>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function removeFromWishlist(productId) {
+            const card = document.getElementById(`wish-${productId}`);
+            if (card) {
+                card.classList.add('removing');
+                setTimeout(() => {
+                    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+                    wishlist = wishlist.filter(id => id !== productId);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    renderWishlist();
+                }, 280);
+            }
+        }
+
+        renderWishlist();
+    </script>
+
+</body>
+</html>
