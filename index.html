@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="eng" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Store UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        /* مخفی کردن نوار اسکرول برای بخش فیلترها */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-white pb-28">
+
+    <!-- Header -->
+    <header class="p-6 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center text-white font-bold text-sm">1:1</div>
+            <div>
+                <p class="text-gray-400 text-xs">Good Morning 👋</p>
+                <h1 class="font-bold text-base text-gray-900" id="user-name">Saeed Abdilar</h1>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <button class="p-2"><i class="fa-regular fa-bell text-xl"></i></button>
+            <a href="wishlist.html" class="p-2"><i class="fa-regular fa-heart text-xl"></i></a>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <section class="px-6 mb-8">
+        <a href="search.html" class="relative flex items-center">
+            <span class="absolute left-4 text-gray-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <div class="w-full py-3.5 pl-12 pr-4 bg-gray-50 rounded-2xl text-sm text-gray-400">Search</div>
+        </a>
+    </section>
+
+    <!-- Brands Grid (Fixed 2 Rows, 4 Items per row) -->
+    <section class="px-6 mb-10">
+    <div class="grid grid-cols-4 gap-y-6 gap-x-2">
+
+        <!-- مثال یک دکمه برند -->
+          <a href="brand.html?name=nike" class="flex flex-col items-center gap-2">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/nike.png" alt="Nike" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Nike</span>
+        </a>
+
+        <a href="brand.html?name=adidas" class="flex flex-col items-center gap-2">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/adidas.png" alt="Adidas" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Adidas</span>
+        </a>
+
+        <a href="brand.html?name=puma" class="flex flex-col items-center gap-2" id="brand-puma">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/puma.png" alt="Puma" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Puma</span>
+        </a>
+
+        <a href="brand.html?name=asics" class="flex flex-col items-center gap-2" id="brand-asics">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/asics.png" alt="Asics" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Asics</span>
+        </a>
+
+        <!-- Row 2 -->
+
+        <a href="brand.html?name=reebok" class="flex flex-col items-center gap-2" id="brand-reebok">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/reebok.png" alt="Reebok" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Reebok</span>
+        </a>
+
+        <a href="brand.html?name=newbalance" class="flex flex-col items-center gap-2" id="brand-newbalance">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/newbalance.png" alt="New Balance" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">New Ba..</span>
+        </a>
+
+        <a href="brand.html?name=converse" class="flex flex-col items-center gap-2" id="brand-converse">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <img src="brand/converse.png" alt="Converse" class="w-8">
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">Converse</span>
+        </a>
+
+        <a href="brand.html?name=more" class="flex flex-col items-center gap-2" id="brand-more">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-ellipsis-h text-xl text-gray-600"></i>
+            </div>
+            <span class="text-[11px] font-bold text-gray-800">More ..</span>
+        </a>
+
+    </div>
+</section>
+
+    <!-- Most Popular Header -->
+    <div class="px-6 flex justify-between items-center mb-5">
+        <h2 class="text-xl font-extrabold text-gray-900">Most Popular</h2>
+        <a href="#" class="text-sm font-bold text-gray-900">See All</a>
+    </div>
+
+    <!-- Category Filters (Horizontal Scroll Enabled) -->
+    <section class="flex gap-3 px-6 overflow-x-auto no-scrollbar mb-8" id="filter-section">
+        <button data-filter="all"  onclick="filterProducts('all',  this)" class="filter-btn active-filter px-8 py-2.5 bg-[#35383F] text-white rounded-full font-bold text-sm flex-shrink-0">All</button>
+        <button data-filter="nike" onclick="filterProducts('nike', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Nike</button>
+        <button data-filter="adidas" onclick="filterProducts('adidas', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Adidas</button>
+        <button data-filter="puma" onclick="filterProducts('puma', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Puma</button>
+        <button data-filter="asics" onclick="filterProducts('asics', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Asics</button>
+        <button data-filter="reebok" onclick="filterProducts('reebok', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Reebok</button>
+        <button data-filter="newbalance" onclick="filterProducts('newbalance', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">New Balance</button>
+        <button data-filter="converse" onclick="filterProducts('converse', this)" class="filter-btn px-8 py-2.5 border-2 border-gray-100 rounded-full font-bold text-sm text-gray-700 flex-shrink-0">Converse</button>
+    </section>
+
+    <!-- Products Grid -->
+    <section id="products-grid" class="px-6 grid grid-cols-2 gap-x-5 gap-y-10">
+        <!-- محصولات توسط JS رندر میشن -->
+    </section>
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4 flex justify-between items-center z-50">
+        <button class="flex flex-col items-center gap-1.5 text-gray-900">
+            <i class="fa-solid fa-house text-xl"></i>
+            <span class="text-[10px] font-bold">Home</span>
+        </button>
+        <a href="cart.html" class="flex flex-col items-center gap-1.5 text-gray-400 relative">
+            <i class="fa-solid fa-bag-shopping text-xl"></i>
+            <span class="text-[10px] font-bold">Cart</span>
+            <span id="cart-badge"
+                  class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            </span>
+        </a>
+        <a href="orders.html" class="flex flex-col items-center gap-1.5 text-gray-400">
+            <i class="fa-solid fa-list-check text-xl"></i>
+            <span class="text-[10px] font-bold">Orders</span>
+        </a>
+        <button class="flex flex-col items-center gap-1.5 text-gray-400">
+            <i class="fa-solid fa-wallet text-xl"></i>
+            <span class="text-[10px] font-bold">Wallet</span>
+        </button>
+        <button class="flex flex-col items-center gap-1.5 text-gray-400">
+            <i class="fa-regular fa-user text-xl"></i>
+            <span class="text-[10px] font-bold">Profile</span>
+        </button>
+    </nav>
+
+</body>
+</html>
+<script src="data.js"></script>
+<script>
+    
+    function filterProducts(brand, clickedBtn) {
+    
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('bg-[#35383F]', 'text-white', 'active-filter');
+            btn.classList.add('border-2', 'border-gray-100', 'text-gray-700');
+        });
+        clickedBtn.classList.add('bg-[#35383F]', 'text-white');
+        clickedBtn.classList.remove('border-2', 'border-gray-100', 'text-gray-700');
+
+        
+        const filtered = brand === 'all'
+            ? PRODUCTS
+            : PRODUCTS.filter(p => p.brand === brand);
+
+        renderProducts(filtered);
+    }
+
+    function renderProducts(list) {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = '';
+
+        if (list.length === 0) {
+            grid.innerHTML = '<p class="col-span-2 text-center text-gray-400 py-10">No products found.</p>';
+            return;
+        }
+
+       
+        const isFiltered = list.length !== PRODUCTS.length;
+        const displayList = isFiltered ? list : list.slice(0, 6);
+
+        displayList.forEach(p => {
+            grid.innerHTML += `
+                <a href="product.html?id=${p.id}" class="flex flex-col">
+                    <div class="bg-[#F3F3F3] rounded-[36px] p-4 aspect-square flex items-center justify-center mb-3">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-bold text-[17px] text-gray-900 truncate">${p.name}</h3>
+                    <p class="font-bold text-gray-900 mt-1">$${p.price.toFixed(2)}</p>
+                </a>
+            `;
+        });
+    }
+
+   
+    function updateCartBadge() {
+        const count = Cart.getTotalCount();
+        const badge = document.getElementById('cart-badge');
+        if (!badge) return;
+        if (count > 0) {
+            badge.innerText = count > 9 ? '9+' : count;
+            badge.classList.remove('hidden');
+            badge.classList.add('flex');
+        } else {
+            badge.classList.add('hidden');
+            badge.classList.remove('flex');
+        }
+    }
+
+   
+    updateCartBadge();
+
+   
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        const nameEl = document.getElementById('user-name');
+        if (nameEl) nameEl.textContent = userName;
+    }
+</script>
